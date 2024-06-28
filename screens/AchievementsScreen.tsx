@@ -7,8 +7,13 @@ import Search from '../components/svg/search';
 import Steps from '../components/svg/steps.';
 import GradientCard from '../components/gradientCard';
 import Achievements from '../components/svg/achievements';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../navigations/Routes';
 
-export default function AchievementsScreen() {
+type HomeScreenProps = {
+  navigation: StackNavigationProp<RootStackParamList, 'Achievement'>;
+};
+const AchievementsScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   return (
     <ScrollView style={{backgroundColor: '#262626'}}>
       <View>
@@ -135,4 +140,5 @@ export default function AchievementsScreen() {
       </View>
     </ScrollView>
   );
-}
+};
+export default AchievementsScreen;

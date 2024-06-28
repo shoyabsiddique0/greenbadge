@@ -13,10 +13,8 @@ import AddActivitiesButton from '../components/actionButton';
 import {NavigationProp} from '@react-navigation/native';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import {StackNavigationProp} from '@react-navigation/stack';
-export type RootStackParamList = {
-  Home: undefined;
-  Achievement: undefined;
-};
+import {RootStackParamList} from '../navigations/Routes';
+
 type HomeScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'Home'>;
 };
@@ -38,7 +36,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           style={{margin: 10}}
         />
         <View style={{flexDirection: 'row', margin: 10}}>
-          <TouchableOpacity onPress={() => navigation.navigate('Achievement')}>
+          <TouchableOpacity
+            onPress={() => {
+              console.warn('Clicked on');
+              navigation.navigate('Achievement');
+            }}>
             <Achievements />
           </TouchableOpacity>
           <View style={{margin: 5}} />
@@ -53,7 +55,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         <PieChartLegend></PieChartLegend>
         <TipsCard></TipsCard>
       </ScrollView>
-      <AddActivitiesButton onPress={() => console.warn()}></AddActivitiesButton>
+      <AddActivitiesButton
+        onPress={() => navigation.navigate('Product')}></AddActivitiesButton>
     </View>
   );
 };

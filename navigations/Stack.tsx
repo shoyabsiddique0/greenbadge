@@ -1,16 +1,26 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import AchievementsScreen from '../screens/AchievementsScreen';
+import ProductScreen from '../screens/ProductScreen';
+import FindAlternativeScreen from '../screens/FindAlternativeScreen';
+import CameraScreen from '../screens/CameraScreen';
+import PermissionsPage from '../screens/PermissionScreen';
 const Stack = createStackNavigator();
-const MyStack = () => {
+const MyStack: React.FC<{showPermissionsPage: boolean}> = ({
+  showPermissionsPage,
+}) => {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName={showPermissionsPage ? 'PermissionsPage' : 'Home'}
       screenOptions={{
         headerShown: false,
       }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Achievement" component={AchievementsScreen} />
+      <Stack.Screen name="Product" component={ProductScreen} />
+      <Stack.Screen name="Alternative" component={FindAlternativeScreen} />
+      <Stack.Screen name="Camera" component={CameraScreen} />
+      <Stack.Screen name="PermissionsPage" component={PermissionsPage} />
     </Stack.Navigator>
   );
 };

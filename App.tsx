@@ -27,6 +27,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import MyStack from './navigations/Stack';
+import {Camera} from 'react-native-vision-camera';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -34,11 +35,14 @@ function App(): React.JSX.Element {
   const backgroundStyle = {
     // backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
+  const cameraPermission = Camera.getCameraPermissionStatus();
+  const microphonePermission = Camera.getMicrophonePermissionStatus();
+  const showPermissionsPage =
+    cameraPermission !== 'granted' || microphonePermission === 'not-determined';
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavigationContainer>
-        <MyStack />
+        <MyStack showPermissionsPage={showPermissionsPage} />
       </NavigationContainer>
     </SafeAreaView>
   );
