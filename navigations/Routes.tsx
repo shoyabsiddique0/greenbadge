@@ -7,4 +7,6 @@ export type RootStackParamList = {
   PermissionsPage: undefined;
   Progress: undefined;
   DecisionScreen: undefined;
+  Signup: undefined;
+  Login: undefined;
 };
