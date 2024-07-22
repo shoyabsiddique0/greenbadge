@@ -5,6 +5,8 @@ import ProductScreen from '../screens/ProductScreen';
 import FindAlternativeScreen from '../screens/FindAlternativeScreen';
 import CameraScreen from '../screens/CameraScreen';
 import PermissionsPage from '../screens/PermissionScreen';
+import SignupScreen from '../screens/signup';
+import LoginScreen from '../screens/login';
 const Stack = createStackNavigator();
 const MyStack: React.FC<{showPermissionsPage: boolean}> = ({
   showPermissionsPage,
@@ -15,6 +17,8 @@ const MyStack: React.FC<{showPermissionsPage: boolean}> = ({
       screenOptions={{
         headerShown: false,
       }}>
+      <Stack.Screen name="Signup" component={SignupScreen}/>  
+      <Stack.Screen name="Login" component={LoginScreen}/>  
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Achievement" component={AchievementsScreen} />
       <Stack.Screen name="Product" component={ProductScreen} />
