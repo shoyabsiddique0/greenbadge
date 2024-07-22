@@ -1,58 +1,67 @@
-import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useState } from 'react';
+import {StackNavigationProp} from '@react-navigation/stack';
+import React, {useState} from 'react';
 import {NavigationProp} from '@react-navigation/native';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
-import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { RootStackParamList } from '../navigations/Routes';
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
+import {RootStackParamList} from '../navigations/Routes';
 
 type SignupScreenProps = {
-    navigation: StackNavigationProp<RootStackParamList, 'Signup'>;
-  };
-  const SignupScreen: React.FC<SignupScreenProps> = ({navigation}) => {
+  navigation: StackNavigationProp<RootStackParamList, 'Signup'>;
+};
+const SignupScreen: React.FC<SignupScreenProps> = ({navigation}) => {
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSignUp = () => {
-    
     console.log('Name:', name);
     console.log('Username:', username);
     console.log('Password:', password);
-  
   };
 
   return (
     <View style={styles.container}>
-      <Image 
-        source={{ uri: '.\assets\Save the Earth-bro (2).png' }} 
-        style={styles.image} 
+      <Image
+        source={{uri: '../assets/Save the Earth-bro (2).png'}}
+        style={styles.image}
       />
       <Text style={styles.title}>Join Us!</Text>
       <Text style={styles.label}>Your Name:</Text>
-      <TextInput 
-        style={styles.input} 
-        placeholder="Enter your full name" 
-        onChangeText={(text)=>setName(text)} 
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your full name"
+        onChangeText={text => setName(text)}
         value={name}
       />
       <Text style={styles.label}>Username:</Text>
-      <TextInput 
-        style={styles.input} 
-        placeholder="Enter you email address" 
-        onChangeText={(text)=>setUsername(text)} 
+      <TextInput
+        style={styles.input}
+        placeholder="Enter you email address"
+        onChangeText={text => setUsername(text)}
         value={username}
       />
       <Text style={styles.label}>Password:</Text>
-      <TextInput 
-        style={styles.input} 
-        placeholder="Password" 
-        secureTextEntry 
-        onChangeText={(text)=>setPassword(text)} 
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry
+        onChangeText={text => setPassword(text)}
         value={password}
       />
-      <TouchableOpacity style={styles.button} onPress={()=>{handleSignUp;navigation.navigate('Login')}}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          handleSignUp;
+          navigation.navigate('DecisionScreen');
+        }}>
         <Text style={styles.buttonText}>Create an account</Text>
-        
       </TouchableOpacity>
     </View>
   );
@@ -63,7 +72,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2F4F2F',
+    backgroundColor: '#262626',
     padding: 20,
   },
   image: {
@@ -94,7 +103,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   button: {
-    backgroundColor: '#32CD32',
+    backgroundColor: '#538313',
+    position: 'static',
+    bottom: 10,
     padding: 10,
     borderRadius: 5,
     width: '90%',
