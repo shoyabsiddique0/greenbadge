@@ -22,7 +22,7 @@ type LoginScreenProps = {
   return (
     <View style={styles.container}>
       <Image 
-        source={require('./assets/Save the Earth-pana (1).png')} 
+        source={require('../assets/Save the Earth-pana (1).png')} 
         style={styles.image} 
       />
       <Text style={styles.title}>Login</Text>
