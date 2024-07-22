@@ -5,13 +5,17 @@ import ProductScreen from '../screens/ProductScreen';
 import FindAlternativeScreen from '../screens/FindAlternativeScreen';
 import CameraScreen from '../screens/CameraScreen';
 import PermissionsPage from '../screens/PermissionScreen';
+import ProgressScreen from '../screens/ProgressScreen';
+import DecisionScreen from '../screens/OptionScreen';
 const Stack = createStackNavigator();
 const MyStack: React.FC<{showPermissionsPage: boolean}> = ({
   showPermissionsPage,
 }) => {
   return (
     <Stack.Navigator
-      initialRouteName={showPermissionsPage ? 'PermissionsPage' : 'Home'}
+      initialRouteName={
+        showPermissionsPage ? 'PermissionsPage' : 'DecisionScreen'
+      }
       screenOptions={{
         headerShown: false,
       }}>
@@ -21,6 +25,8 @@ const MyStack: React.FC<{showPermissionsPage: boolean}> = ({
       <Stack.Screen name="Alternative" component={FindAlternativeScreen} />
       <Stack.Screen name="Camera" component={CameraScreen} />
       <Stack.Screen name="PermissionsPage" component={PermissionsPage} />
+      <Stack.Screen name="Progress" component={ProgressScreen} />
+      <Stack.Screen name="DecisionScreen" component={DecisionScreen} />
     </Stack.Navigator>
   );
 };

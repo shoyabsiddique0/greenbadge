@@ -5,4 +5,6 @@ export type RootStackParamList = {
   Alternative: undefined;
   Camera: undefined;
   PermissionsPage: undefined;
+  Progress: undefined;
+  DecisionScreen: undefined;
 };

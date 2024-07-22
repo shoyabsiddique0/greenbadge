@@ -1,4 +1,4 @@
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Touchable} from 'react-native';
 import React from 'react';
 import Achievements from '../components/svg/achievements';
 import Settings from '../components/svg/settings';
@@ -49,7 +49,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       </View>
       <ScrollView>
         <View style={{marginTop: '70%'}}>
-          <CarbonFootprintCard footprint={120}></CarbonFootprintCard>
+          <TouchableOpacity onPress={() => navigation.navigate('Progress')}>
+            <CarbonFootprintCard footprint={120}></CarbonFootprintCard>
+          </TouchableOpacity>
         </View>
         <WeeklyFootprintChart></WeeklyFootprintChart>
         <PieChartLegend></PieChartLegend>
