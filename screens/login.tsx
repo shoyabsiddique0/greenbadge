@@ -1,51 +1,75 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import {NavigationProp} from '@react-navigation/native';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
-import { RootStackParamList } from '../navigations/Routes';
+import {RootStackParamList} from '../navigations/Routes';
 
 type LoginScreenProps = {
-    navigation: StackNavigationProp<RootStackParamList, 'Login'>;
-  };
-  const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
+  navigation: StackNavigationProp<RootStackParamList, 'Login'>;
+};
+const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-
     console.log('Username:', username);
     console.log('Password:', password);
-
   };
 
   return (
     <View style={styles.container}>
-      <Image 
-        source={require('../assets/Save the Earth-pana (1).png')} 
-        style={styles.image} 
-      />
+      {/* <Image
+        source={require('../assets/Save-the-Earth-pana.png')}
+        style={styles.image}
+      /> */}
       <Text style={styles.title}>Login</Text>
       <Text style={styles.label}>Username:</Text>
-      <TextInput 
-        style={styles.input} 
-        placeholder="Enter your Username" 
-        onChangeText={setUsername} 
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your Username"
+        onChangeText={setUsername}
         value={username}
       />
       <Text style={styles.label}>Password:</Text>
-      <TextInput 
-        style={styles.input} 
-        placeholder="************" 
-        secureTextEntry 
-        onChangeText={setPassword} 
+      <TextInput
+        style={styles.input}
+        placeholder="************"
+        secureTextEntry
+        onChangeText={setPassword}
         value={password}
       />
-      <TouchableOpacity onPress={() => console.warn('Forgot Password pressed')}>
-        <Text style={styles.forgotPassword}>Forgot Password?</Text>
-      </TouchableOpacity>
+      <View
+        style={{
+          flexWrap: 'wrap',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignSelf: 'stretch',
+          marginLeft: 20,
+        }}>
+        <TouchableOpacity
+          onPress={() => console.warn('Forgot Password pressed')}>
+          <Text style={styles.forgotPassword}>Forgot Password?</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+          <Text style={styles.forgotPassword}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText} onPress={()=>{navigation.navigate('Home')}}>Log in</Text>
+        <Text
+          style={styles.buttonText}
+          onPress={() => {
+            navigation.navigate('Home');
+          }}>
+          Log in
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -56,7 +80,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2F4F2F',
+    backgroundColor: '#262626',
     padding: 20,
   },
   image: {
@@ -93,7 +117,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   button: {
-    backgroundColor: '#32CD32',
+    backgroundColor: '#538316',
     padding: 10,
     borderRadius: 5,
     width: '90%',
