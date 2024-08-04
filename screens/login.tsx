@@ -26,10 +26,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      {/* <Image
+      <Image
         source={require('../assets/Save-the-Earth-pana.png')}
         style={styles.image}
-      /> */}
+      />
       <Text style={styles.title}>Login</Text>
       <Text style={styles.label}>Username:</Text>
       <TextInput
@@ -37,6 +37,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         placeholder="Enter your Username"
         onChangeText={setUsername}
         value={username}
+        
       />
       <Text style={styles.label}>Password:</Text>
       <TextInput
@@ -56,19 +57,19 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         }}>
         <TouchableOpacity
           onPress={() => console.warn('Forgot Password pressed')}>
-          <Text style={styles.forgotPassword}>Forgot Password?</Text>
+          <Text style={styles.forgotPassword}>Forgot Password?{' '}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-          <Text style={styles.forgotPassword}>Sign Up</Text>
+          <Text style={styles.forgotPassword}>Sign Up{' '}</Text>
         </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text
           style={styles.buttonText}
           onPress={() => {
-            navigation.navigate('Home');
+            navigation.navigate('Intro1');
           }}>
-          Log in
+          Log in{' '}
         </Text>
       </TouchableOpacity>
     </View>
@@ -84,9 +85,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   image: {
-    width: 150,
-    height: 150,
-    marginBottom: 20,
+    width: 300,
+    height: 300,
+    // marginBottom: 20,
   },
   title: {
     fontSize: 24,
@@ -109,6 +110,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 15,
     backgroundColor: '#FFF',
+    color: 'black'
   },
   forgotPassword: {
     color: '#007BFF',
@@ -122,6 +124,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: '90%',
     alignItems: 'center',
+    position: "static",
+    // flex:Image;
   },
   buttonText: {
     color: '#FFF',

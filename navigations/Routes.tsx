@@ -9,4 +9,8 @@ export type RootStackParamList = {
   DecisionScreen: undefined;
   Signup: undefined;
   Login: undefined;
+  Intro1:undefined;
+  Intro2:undefined;
+  Intro3:undefined;
+  AddActivity:undefined;
 };
