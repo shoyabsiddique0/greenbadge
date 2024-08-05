@@ -13,4 +13,5 @@ export type RootStackParamList = {
   Intro2:undefined;
   Intro3:undefined;
   AddActivity:undefined;
+  Profile:undefined;
 };
