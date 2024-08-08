@@ -106,11 +106,13 @@ const styles = StyleSheet.create({
   footprintValue: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#000',
   },
   footprintUnit: {
     fontSize: 14,
     marginLeft: 5,
     fontWeight: 'bold',
+    color: '#000',
   },
   today: {
     fontSize: 16,

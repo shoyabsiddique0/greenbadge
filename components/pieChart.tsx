@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
   },
   legendText: {
     fontSize: 12,
+    color: '#5B5B5B',
   },
 });
 

@@ -9,6 +9,7 @@ import GradientCard from '../components/gradientCard';
 import Achievements from '../components/svg/achievements';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigations/Routes';
+import store from '../utils/global';
 
 type HomeScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'Achievement'>;
@@ -33,7 +34,7 @@ const AchievementsScreen: React.FC<HomeScreenProps> = ({navigation}) => {
                 fontSize: 18,
                 fontStyle: 'italic',
               }}>
-              Hello Linh
+              Hi, {store.getRawState().data.name.split(' ')[0]}
             </Text>
             <Text
               style={{
@@ -42,7 +43,7 @@ const AchievementsScreen: React.FC<HomeScreenProps> = ({navigation}) => {
                 fontSize: 18,
                 fontStyle: 'italic',
               }}>
-              Thursday, 08 July
+              {}
             </Text>
           </View>
           <View

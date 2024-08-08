@@ -7,10 +7,14 @@ import {
   StyleSheet,
   FlatList,
   ListRenderItemInfo,
+  Alert,
 } from 'react-native';
 import Leaf from '../components/svg/leaf';
 import {RootStackParamList} from '../navigations/Routes';
 import {StackNavigationProp} from '@react-navigation/stack';
+import baseUrl from '../utils/const';
+import {getItem} from 'react-native-shared-preferences';
+import store from '../utils/global';
 
 interface Option {
   text: string;
@@ -183,6 +187,45 @@ const DecisionScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     </TouchableOpacity>
   );
 
+  var userDetails: any;
+  useEffect(() => {
+    userDetails = store.getRawState();
+  }, []);
+
+  const handleUpdateScore = async () => {
+    try {
+      console.log(userDetails.user_id);
+
+      const response = await fetch(
+        `${baseUrl}/user/update/${userDetails.data.user_id}/${totalScore}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      const jsonResponse = await response.json();
+
+      if (response.ok) {
+        console.log('score updated', jsonResponse);
+        store.update(state => {
+          state.data.score = totalScore;
+        });
+        navigation.replace('Home');
+      } else {
+        Alert.alert('update Failed', jsonResponse.error);
+      }
+    } catch (error) {
+      console.error('Error during udpate:', error);
+      Alert.alert(
+        'Score Update Error',
+        'An error occurred during udpating score. Please try again.',
+      );
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Take the right decisions</Text>
@@ -237,7 +280,7 @@ const DecisionScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         {currentQuestionIndex === questionsData.length - 1 ? (
           <TouchableOpacity
             style={[styles.button, styles.decideButton, {}]}
-            onPress={() => navigation.navigate('Home')}>
+            onPress={handleUpdateScore}>
             <Text style={styles.buttonText}>I've Decided</Text>
           </TouchableOpacity>
         ) : null}
@@ -257,6 +300,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#000',
   },
   mascotContainer: {
     position: 'relative',
@@ -277,6 +321,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: '#000',
   },
   optionsContainer: {
     width: '100%',
@@ -287,6 +332,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#E6F3FF',
+
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
@@ -298,6 +344,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 16,
+    color: '#000',
   },
   scoreContainer: {
     flexDirection: 'row',

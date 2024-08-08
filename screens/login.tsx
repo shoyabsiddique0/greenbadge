@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,22 +6,57 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {NavigationProp} from '@react-navigation/native';
-import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import {RootStackParamList} from '../navigations/Routes';
+import baseUrl from '../utils/const';
+import {setItem} from 'react-native-shared-preferences';
+import store from '../utils/global';
 
 type LoginScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'Login'>;
 };
+
 const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    console.log('Username:', username);
-    console.log('Password:', password);
+  const handleLogin = async () => {
+    try {
+      var data = JSON.stringify({email: username.toLowerCase(), password});
+      console.log(data, 'data');
+
+      const response = await fetch(baseUrl + '/user/login', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: data,
+      });
+      console.log('Executed successfully', response);
+
+      const jsonResponse = await response.json();
+
+      if (response.ok) {
+        console.log('Login successful:', jsonResponse);
+        setItem('profile', JSON.stringify(jsonResponse));
+        store.update(state => {
+          state = jsonResponse;
+        });
+        // Handle successful login, e.g., navigate to another screen
+        navigation.replace('Home');
+      } else {
+        Alert.alert('Login Failed', jsonResponse.error);
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      Alert.alert(
+        'Login Error',
+        'An error occurred during login. Please try again.',
+      );
+    }
   };
 
   return (
@@ -37,7 +72,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         placeholder="Enter your Username"
         onChangeText={setUsername}
         value={username}
-        
       />
       <Text style={styles.label}>Password:</Text>
       <TextInput
@@ -57,20 +91,14 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         }}>
         <TouchableOpacity
           onPress={() => console.warn('Forgot Password pressed')}>
-          <Text style={styles.forgotPassword}>Forgot Password?{' '}</Text>
+          <Text style={styles.forgotPassword}>Forgot Password? </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-          <Text style={styles.forgotPassword}>Sign Up{' '}</Text>
+          <Text style={styles.forgotPassword}>Sign Up </Text>
         </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text
-          style={styles.buttonText}
-          onPress={() => {
-            navigation.navigate('Intro1');
-          }}>
-          Log in{' '}
-        </Text>
+        <Text style={styles.buttonText}>Log in </Text>
       </TouchableOpacity>
     </View>
   );
@@ -110,7 +138,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 15,
     backgroundColor: '#FFF',
-    color: 'black'
+    color: 'black',
   },
   forgotPassword: {
     color: '#007BFF',
@@ -124,8 +152,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: '90%',
     alignItems: 'center',
-    position: "static",
-    // flex:Image;
+    position: 'static',
+    // flex: Image;
   },
   buttonText: {
     color: '#FFF',
