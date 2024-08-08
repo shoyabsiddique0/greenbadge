@@ -12,6 +12,7 @@ import LoginScreen from '../screens/login';
 import Intro1Screen from '../screens/Intro1';
 import Intro2Screen from '../screens/Intro2';
 import AddActivityScreen from '../screens/AddActivityScreen';
+import ProfileScreen from '../screens/Profile';
 
 const Stack = createStackNavigator();
 const MyStack: React.FC<{
@@ -32,6 +33,7 @@ const MyStack: React.FC<{
       <Stack.Screen name="Signup" component={SignupScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="AddActivity" component={AddActivityScreen} />
       <Stack.Screen name="Achievement" component={AchievementsScreen} />
       <Stack.Screen name="Product" component={ProductScreen} />

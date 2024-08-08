@@ -37,95 +37,196 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const [sumOfActvity, setSumOfActvity] = useState(0);
   const [loading, setLoading] = useState(true);
   const [allActivities, setAllActivities] = useState<Activity[]>();
+  // useEffect(() => {
+  //   setLoading(true);
+  //   console.log(loading);
+
+  //   const fetchActivities = async () => {
+  //     try {
+  //       console.log(store.getRawState().data.user_id);
+
+  //       const response = await fetch(
+  //         `${baseUrl}/userActivity/${store.getRawState().data.user_id}`,
+  //         {
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           method: 'GET',
+  //         },
+  //       );
+  //       const jsonResponse = await response.json();
+  //       console.log(jsonResponse);
+
+  //       if (response.ok) {
+  //         console.log('Fetched User Activity all', jsonResponse);
+  //         setAllActivities(jsonResponse.data);
+  //         console.log('User Activity', allActivities);
+  //         // Handle successful login, e.g., navigate to another screen
+  //         // navigation.replace('Home');
+  //       } else {
+  //         Alert.alert('Fetching User Activity Failed', jsonResponse.error);
+  //         console.log(jsonResponse);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error during Fetching:', error);
+  //       Alert.alert(
+  //         'User Activity Error',
+  //         'An error occurred during Fetching User Activity. Please try again.',
+  //       );
+  //     }
+  //   };
+
+  //   const fetchActivitiesToday = async () => {
+  //     try {
+  //       console.log(store.getRawState().data.user_id);
+  //       const today = new Date();
+
+  //       const yyyy = today.getUTCFullYear();
+  //       const mm = String(today.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-based
+  //       const dd = String(today.getUTCDate()).padStart(2, '0');
+
+  //       const hours = String(today.getUTCHours()).padStart(2, '0');
+  //       const minutes = String(today.getUTCMinutes()).padStart(2, '0');
+  //       const seconds = String(today.getUTCSeconds()).padStart(2, '0');
+  //       const milliseconds = String(today.getUTCMilliseconds()).padStart(
+  //         3,
+  //         '0',
+  //       );
+
+  //       // To get microseconds (using fractions of milliseconds):
+  //       const microseconds =
+  //         String(today.getTime() % 1000).padStart(3, '0') + '000';
+
+  //       const formattedDateTimeUTC = `${yyyy}-${mm}-${dd} ${hours}:${minutes}:${seconds}.${milliseconds}${microseconds} +0000 UTC`;
+
+  //       const body = JSON.stringify({timestamp: formattedDateTimeUTC});
+  //       console.log(body, 'json');
+
+  //       const response = await fetch(
+  //         `${baseUrl}/userActivity/time/${store.getRawState().data.user_id}`,
+  //         {
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           method: 'POST',
+  //           body: body,
+  //         },
+  //       );
+  //       const jsonResponse = await response.json();
+  //       console.log(jsonResponse);
+
+  //       if (response.ok) {
+  //         console.log('Fetched User Activity', jsonResponse);
+  //         setUserData(jsonResponse);
+  //         let sum = 0;
+  //         jsonResponse.data.forEach((element: any) => {
+  //           console.log(element.carbonFootprint);
+  //           sum += element.carbonFootprint;
+  //         });
+  //         setSumOfActvity(parseFloat(sum.toPrecision(3)));
+  //         // Handle successful login, e.g., navigate to another screen
+  //         // navigation.replace('Home');
+  //       } else {
+  //         Alert.alert('Fetching User Activity Failed', jsonResponse.error);
+  //         console.log(jsonResponse);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error during Fetching:', error);
+  //       Alert.alert(
+  //         'User Activity Error',
+  //         'An error occurred during Fetching User Activity. Please try again.',
+  //       );
+  //     }
+  //     setLoading(false);
+  //   };
+  //   fetchActivities();
+  //   fetchActivitiesToday();
+  //   console.log(loading);
+  // }, []);
   useEffect(() => {
-    const fetchActivities = async () => {
+    const fetchData = async () => {
+      setLoading(true);
+
       try {
-        console.log(store.getRawState().data.user_id);
-
-        const response = await fetch(
-          `${baseUrl}/userActivity/${store.getRawState().data.user_id}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
+        // Fetch all activities
+        const fetchActivities = async () => {
+          const response = await fetch(
+            `${baseUrl}/userActivity/${store.getRawState().data.user_id}`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              method: 'GET',
             },
-            method: 'GET',
-          },
-        );
-        const jsonResponse = await response.json();
-        console.log(jsonResponse);
+          );
+          const jsonResponse = await response.json();
 
-        if (response.ok) {
-          console.log('Fetched User Activity all', jsonResponse);
-          setAllActivities(jsonResponse.data);
-          console.log('User Activity', allActivities);
-          // Handle successful login, e.g., navigate to another screen
-          // navigation.replace('Home');
-        } else {
-          Alert.alert('Fetching User Activity Failed', jsonResponse.error);
-          console.log(jsonResponse);
-        }
+          if (response.ok) {
+            setAllActivities(jsonResponse.data);
+          } else {
+            Alert.alert('Fetching User Activity Failed', jsonResponse.error);
+          }
+        };
+
+        // Fetch today's activities
+        const fetchActivitiesToday = async () => {
+          const today = new Date();
+
+          const yyyy = today.getUTCFullYear();
+          const mm = String(today.getUTCMonth() + 1).padStart(2, '0');
+          const dd = String(today.getUTCDate()).padStart(2, '0');
+          const hours = String(today.getUTCHours()).padStart(2, '0');
+          const minutes = String(today.getUTCMinutes()).padStart(2, '0');
+          const seconds = String(today.getUTCSeconds()).padStart(2, '0');
+          const milliseconds = String(today.getUTCMilliseconds()).padStart(
+            3,
+            '0',
+          );
+          const microseconds =
+            String(today.getTime() % 1000).padStart(3, '0') + '000';
+
+          const formattedDateTimeUTC = `${yyyy}-${mm}-${dd} ${hours}:${minutes}:${seconds}.${milliseconds}${microseconds} +0000 UTC`;
+
+          const body = JSON.stringify({timestamp: formattedDateTimeUTC});
+
+          const response = await fetch(
+            `${baseUrl}/userActivity/time/${store.getRawState().data.user_id}`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              method: 'POST',
+              body: body,
+            },
+          );
+          const jsonResponse = await response.json();
+
+          if (response.ok) {
+            setUserData(jsonResponse);
+            let sum = 0;
+            jsonResponse.data.forEach((element: any) => {
+              sum += element.carbonFootprint;
+            });
+            setSumOfActvity(parseFloat(sum.toPrecision(3)));
+          } else {
+            Alert.alert('Fetching User Activity Failed', jsonResponse.error);
+          }
+        };
+
+        await Promise.all([fetchActivities(), fetchActivitiesToday()]);
       } catch (error) {
-        console.error('Error during Fetching:', error);
         Alert.alert(
           'User Activity Error',
           'An error occurred during Fetching User Activity. Please try again.',
         );
+      } finally {
+        setLoading(false); // Ensure loading is false after both requests complete
       }
     };
 
-    const fetchActivitiesToday = async () => {
-      try {
-        console.log(store.getRawState().data.user_id);
-        const date = new Date();
-        const todayDate = Date.UTC(
-          date.getUTCFullYear(),
-          date.getUTCMonth(),
-          date.getUTCDate(),
-        );
-
-        const body = JSON.stringify({timestamp: todayDate});
-        console.log(body, 'json');
-
-        const response = await fetch(
-          `${baseUrl}/userActivity/time/${store.getRawState().data.user_id}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            method: 'POST',
-            body: body,
-          },
-        );
-        const jsonResponse = await response.json();
-        console.log(jsonResponse);
-
-        if (response.ok) {
-          console.log('Fetched User Activity', jsonResponse);
-          setUserData(jsonResponse);
-          let sum = 0;
-          jsonResponse.data.forEach((element: any) => {
-            console.log(element.carbonFootprint);
-            sum += element.carbonFootprint;
-          });
-          setSumOfActvity(parseFloat(sum.toPrecision(3)));
-          // Handle successful login, e.g., navigate to another screen
-          // navigation.replace('Home');
-        } else {
-          Alert.alert('Fetching User Activity Failed', jsonResponse.error);
-          console.log(jsonResponse);
-        }
-      } catch (error) {
-        console.error('Error during Fetching:', error);
-        Alert.alert(
-          'User Activity Error',
-          'An error occurred during Fetching User Activity. Please try again.',
-        );
-      }
-      setLoading(false);
-    };
-    fetchActivities();
-    fetchActivitiesToday();
+    fetchData();
   }, []);
+
   if (loading) {
     return (
       <SafeAreaView
