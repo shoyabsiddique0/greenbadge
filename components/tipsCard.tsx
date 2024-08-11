@@ -3,6 +3,28 @@ import {View, Text, StyleSheet} from 'react-native';
 import {Svg, Path} from 'react-native-svg';
 
 const TipsCard: React.FC = () => {
+  const tips = [
+    'Walk or bike for short trips.',
+    'Use public transportation.',
+    'Carpool when possible.',
+    'Drive fuel-efficient vehicles.',
+    'Avoid unnecessary flights.',
+    'Turn off lights when not in use.',
+    'Unplug electronics when not in use.',
+    'Use energy-efficient appliances.',
+    'Switch to LED bulbs.',
+    'Reduce, reuse, and recycle.',
+    'Eat more plant-based meals.',
+    'Buy local and seasonal produce.',
+    'Avoid single-use plastics.',
+    'Compost food waste.',
+    'Wash clothes in cold water.',
+    'Air dry your laundry.',
+    'Insulate your home properly.',
+    'Install a programmable thermostat.',
+    'Reduce water heating temperature.',
+    'Support renewable energy sources.',
+  ];
   return (
     <View style={styles.card}>
       <View style={styles.iconContainer}>
@@ -23,7 +45,9 @@ const TipsCard: React.FC = () => {
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.title}>Tips</Text>
-        <Text style={styles.subtitle}>Reduce your carbon footprint</Text>
+        <Text style={styles.subtitle}>
+          {tips[Math.floor(Math.random() * 19)]}
+        </Text>
       </View>
     </View>
   );

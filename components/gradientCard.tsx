@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import store from '../stores/ProfileStore';
 
 const {width} = Dimensions.get('window');
 
@@ -15,7 +16,8 @@ const GradientCard = () => {
         <View style={styles.content}>
           <Text style={styles.title}>Your Available points</Text>
           <Text style={styles.points}>
-            8918 <Text style={styles.ptsLabel}>pts.</Text>
+            {store.getRawState().data.score}{' '}
+            <Text style={styles.ptsLabel}>pts.</Text>
           </Text>
           <View style={styles.weekPointsContainer}>
             <Text style={styles.weekPointsLabel}>This week points</Text>

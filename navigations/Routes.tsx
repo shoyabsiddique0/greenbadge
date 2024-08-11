@@ -1,3 +1,5 @@
+import ProductData from '../utils/product';
+
 export type RootStackParamList = {
   Home: undefined;
   Achievement: undefined;
@@ -15,4 +17,5 @@ export type RootStackParamList = {
   AddActivity: undefined;
   Root: undefined;
   Profile: undefined;
+  ProductDetails: undefined;
 };

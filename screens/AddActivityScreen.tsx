@@ -311,7 +311,7 @@ import {RootStackParamList} from '../navigations/Routes';
 import {useEffect, useState} from 'react';
 import baseUrl from '../utils/const';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-import store from '../utils/global';
+import store from '../stores/ProfileStore';
 
 type AddActivityScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'AddActivity'>;
@@ -373,6 +373,47 @@ const AddActivityScreen: React.FC<AddActivityScreenProps> = ({navigation}) => {
       console.log(jsonResponse);
 
       if (response.ok) {
+        console.log('Added User Activity', jsonResponse);
+        // Handle successful login, e.g., navigate to another screen
+        navigation.replace('Home');
+      } else {
+        Alert.alert('Adding User Activity Failed', jsonResponse.error);
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      Alert.alert(
+        'User Activity Error',
+        'An error occurred during Adding User Activity. Please try again.',
+      );
+    }
+  };
+
+  const fetchUserData = async () => {
+    try {
+      const data = JSON.stringify({
+        userId: store.getRawState().data.user_id,
+        activityId: selectedActivity,
+        carbonFootprint,
+        timestamp: Date.now().toString(),
+      });
+      console.log(data, 'data');
+
+      const response = await fetch(
+        `${baseUrl}/user/${store.getRawState().data.user_id}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'GET',
+        },
+      );
+      const jsonResponse = await response.json();
+      console.log(jsonResponse);
+
+      if (response.ok) {
+        store.update(state => {
+          state = jsonResponse;
+        });
         console.log('Added User Activity', jsonResponse);
         // Handle successful login, e.g., navigate to another screen
         navigation.replace('Home');
@@ -482,7 +523,10 @@ const AddActivityScreen: React.FC<AddActivityScreenProps> = ({navigation}) => {
       {carbonFootprint !== null && (
         <TouchableOpacity
           style={styles.button}
-          onPress={() => submitActivity()}>
+          onPress={() => {
+            submitActivity();
+            fetchUserData();
+          }}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       )}
@@ -523,7 +567,10 @@ const AddActivityScreen: React.FC<AddActivityScreenProps> = ({navigation}) => {
                 data={activities}
                 keyExtractor={item => item.activity_id}
                 renderItem={({item}) => (
-                  <TouchableOpacity onPress={() => handleSelectActivity(item)}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleSelectActivity(item);
+                    }}>
                     <Text style={styles.modalItem}>{item.name}</Text>
                   </TouchableOpacity>
                 )}

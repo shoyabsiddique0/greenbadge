@@ -239,6 +239,22 @@ interface props {
 }
 
 const WeeklyFootprintChart: React.FC<props> = userActivity => {
+  if (userActivity.userActivity.length == 0) {
+    return (
+      <View
+        style={{
+          backgroundColor: 'white',
+          margin: 20,
+          padding: 20,
+          borderRadius: 8,
+          alignContent: 'center',
+        }}>
+        <Text style={{color: 'black', textAlign: 'center'}}>
+          No activity data available
+        </Text>
+      </View>
+    );
+  }
   const rawData: Activity[] = userActivity.userActivity;
 
   console.log(rawData, 'rawData');

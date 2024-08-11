@@ -4,8 +4,8 @@ import {SafeAreaView, ActivityIndicator, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import MyStack from './navigations/Stack';
 import {Camera} from 'react-native-vision-camera';
-import store from './utils/global';
 import {getItem} from 'react-native-shared-preferences';
+import store from './stores/ProfileStore';
 
 function App(): React.JSX.Element {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

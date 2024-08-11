@@ -13,7 +13,7 @@ import {NavigationProp} from '@react-navigation/native';
 import {RootStackParamList} from '../navigations/Routes';
 import baseUrl from '../utils/const';
 import {setItem} from 'react-native-shared-preferences';
-import store from '../utils/global';
+import store from '../stores/HomeStore';
 
 type LoginScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'Login'>;
@@ -45,6 +45,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         store.update(state => {
           state = jsonResponse;
         });
+        console.log(store.getRawState());
         // Handle successful login, e.g., navigate to another screen
         navigation.replace('Home');
       } else {

@@ -13,7 +13,7 @@ import {Picker} from '@react-native-picker/picker';
 import {RootStackParamList} from '../navigations/Routes';
 import baseUrl from '../utils/const';
 import {setItem} from 'react-native-shared-preferences';
-import store from '../utils/global';
+import store from '../stores/ProfileStore';
 
 type SignupScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'Signup'>;

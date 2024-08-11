@@ -23,20 +23,24 @@ import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigations/Routes';
 import baseUrl from '../utils/const';
-import store from '../utils/global';
 import Activity from '../utils/activity';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {parse} from 'date-fns/fp/parse';
+import {removeItem} from 'react-native-shared-preferences';
+import store from '../stores/ProfileStore';
+import activityStore from '../stores/HomeStore';
+import Camera from '../components/svg/camera';
 
 type HomeScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'Home'>;
 };
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState<Activity[]>([]);
   const [sumOfActvity, setSumOfActvity] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [allActivities, setAllActivities] = useState<Activity[]>();
+  const [allActivities, setAllActivities] = useState<Activity[]>([]);
+
   // useEffect(() => {
   //   setLoading(true);
   //   console.log(loading);
@@ -146,10 +150,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      console.log(store.getRawState().data.user_id, 'user id');
 
       try {
         // Fetch all activities
         const fetchActivities = async () => {
+          // removeItem('profile');
           const response = await fetch(
             `${baseUrl}/userActivity/${store.getRawState().data.user_id}`,
             {
@@ -160,7 +166,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
             },
           );
           const jsonResponse = await response.json();
-
           if (response.ok) {
             setAllActivities(jsonResponse.data);
           } else {
@@ -202,7 +207,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           const jsonResponse = await response.json();
 
           if (response.ok) {
-            setUserData(jsonResponse);
+            setUserData(jsonResponse.data);
+
             let sum = 0;
             jsonResponse.data.forEach((element: any) => {
               sum += element.carbonFootprint;
@@ -213,11 +219,21 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           }
         };
 
-        await Promise.all([fetchActivities(), fetchActivitiesToday()]);
+        await Promise.all([fetchActivitiesToday(), fetchActivities()]).then(
+          () => {
+            console.log(allActivities, 'User Data');
+
+            activityStore.update(state => {
+              state = allActivities;
+              console.log('activity updated', state);
+            });
+          },
+        );
       } catch (error) {
         Alert.alert(
           'User Activity Error',
-          'An error occurred during Fetching User Activity. Please try again.',
+          'An error occurred during Fetching User Activity. Please try again.' +
+            error,
         );
       } finally {
         setLoading(false); // Ensure loading is false after both requests complete
@@ -253,19 +269,30 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           width: '100%',
         }}>
         <Image
-          source={require('../assets/Greenbadge.png')}
-          style={{margin: 10}}
+          source={require('../assets/CarbonSmart.png')}
+          style={{
+            margin: 10,
+            width: '50%',
+            height: '80%',
+            objectFit: 'contain',
+          }}
         />
         <View style={{flexDirection: 'row', margin: 10}}>
           <TouchableOpacity
             onPress={() => {
-              console.warn('Clicked on');
+              // console.warn('Clicked on');
               navigation.navigate('Achievement');
             }}>
             <Achievements />
           </TouchableOpacity>
           <View style={{margin: 5}} />
-          <Settings />
+          <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+            <Settings />
+          </TouchableOpacity>
+          <View style={{margin: 5}} />
+          <TouchableOpacity onPress={() => navigation.navigate('Product')}>
+            <Camera />
+          </TouchableOpacity>
         </View>
       </View>
       <ScrollView>
@@ -274,9 +301,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
             <CarbonFootprintCard footprint={sumOfActvity}></CarbonFootprintCard>
           </TouchableOpacity>
         </View>
+
         <WeeklyFootprintChart
           userActivity={allActivities!}></WeeklyFootprintChart>
-        <PieChartLegend></PieChartLegend>
+        <PieChartLegend activities={userData!}></PieChartLegend>
         <TipsCard></TipsCard>
       </ScrollView>
       <AddActivitiesButton

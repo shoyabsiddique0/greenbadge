@@ -14,7 +14,7 @@ import {RootStackParamList} from '../navigations/Routes';
 import {StackNavigationProp} from '@react-navigation/stack';
 import baseUrl from '../utils/const';
 import {getItem} from 'react-native-shared-preferences';
-import store from '../utils/global';
+import store from '../stores/ProfileStore';
 
 interface Option {
   text: string;

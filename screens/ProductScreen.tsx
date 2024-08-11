@@ -14,6 +14,7 @@ import {RootStackParamList} from '../navigations/Routes';
 type HomeScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'Product'>;
 };
+
 const ProductScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>

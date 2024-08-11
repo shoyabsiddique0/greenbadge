@@ -9,19 +9,21 @@ import GradientCard from '../components/gradientCard';
 import Achievements from '../components/svg/achievements';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigations/Routes';
-import store from '../utils/global';
+import store from '../stores/ProfileStore';
 
 type HomeScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'Achievement'>;
 };
 const AchievementsScreen: React.FC<HomeScreenProps> = ({navigation}) => {
+  const userProfile = store.getRawState();
   return (
     <ScrollView style={{backgroundColor: '#262626'}}>
       <View>
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
+            gap: 40,
             margin: 10,
             alignItems: 'center',
           }}>
@@ -34,7 +36,7 @@ const AchievementsScreen: React.FC<HomeScreenProps> = ({navigation}) => {
                 fontSize: 18,
                 fontStyle: 'italic',
               }}>
-              Hi, {store.getRawState().data.name.split(' ')[0]}
+              Hi, {userProfile.data.name.split(' ')[0]}
             </Text>
             <Text
               style={{
@@ -46,7 +48,7 @@ const AchievementsScreen: React.FC<HomeScreenProps> = ({navigation}) => {
               {}
             </Text>
           </View>
-          <View
+          {/* <View
             style={{
               backgroundColor: '#2d3628',
               width: 56,
@@ -56,7 +58,7 @@ const AchievementsScreen: React.FC<HomeScreenProps> = ({navigation}) => {
               justifyContent: 'center',
             }}>
             <Search></Search>
-          </View>
+          </View> */}
         </View>
         <View
           style={{

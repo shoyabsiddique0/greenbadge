@@ -13,6 +13,7 @@ import Intro1Screen from '../screens/Intro1';
 import Intro2Screen from '../screens/Intro2';
 import AddActivityScreen from '../screens/AddActivityScreen';
 import ProfileScreen from '../screens/Profile';
+import ProductDetailsScreen from '../screens/ProductDetails';
 
 const Stack = createStackNavigator();
 const MyStack: React.FC<{
@@ -42,6 +43,7 @@ const MyStack: React.FC<{
       <Stack.Screen name="PermissionsPage" component={PermissionsPage} />
       <Stack.Screen name="Progress" component={ProgressScreen} />
       <Stack.Screen name="DecisionScreen" component={DecisionScreen} />
+      <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
     </Stack.Navigator>
   );
 };
